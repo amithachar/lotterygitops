@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lottery-deployment
+  labels:
+    app: lottery
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lottery
+  template:
+    metadata:
+      labels:
+        app: lottery
+    spec:
+      containers:
+        - name: lottery
+          image: asia-south1-docker.pkg.dev/YOUR_PROJECT/lottery/lottery-machine:1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          env:
+            - name: ENVIRONMENT
+              value: "production"
+            - name: PORT
+              value: "5000"
+            - name: PYTHONUNBUFFERED
+              value: "1"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 5
