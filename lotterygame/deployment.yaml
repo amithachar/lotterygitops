@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: lottery
-          image: us-central1-docker.pkg.dev/durable-catbird-450018-j4/lottery/lottery-machine:39
+          image: us-central1-docker.pkg.dev/durable-catbird-450018-j4/lottery/lottery-machine:40
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
